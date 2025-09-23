@@ -171,7 +171,7 @@ with open(os.path.join(output_dir, "top10_feature_importance.txt"), "w", encodin
         f.write(f"{i}. {feature}: {importance:.4f}\n")
 
 # ============================
-# 10. Resultado final em TXT (estilo usuário)
+# 10. Resultado final em TXT 
 # ============================
 result_txt_path = os.path.join(output_dir, "resultado_final.txt")
 with open(result_txt_path, "w", encoding="utf-8") as f:

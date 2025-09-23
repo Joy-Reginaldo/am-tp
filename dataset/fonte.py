@@ -4,19 +4,19 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib
-matplotlib.use('Agg')  # Evita erros do Tkinter
+matplotlib.use('Agg')  # Evita problemas com Tkinter
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 # ============================
-# Supressão de warnings futuros do Seaborn
+# Supressão de warnings do Seaborn
 # ============================
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 # ============================
-# Função auxiliar para gráficos seguros
+# Função auxiliar para gráficos
 # ============================
 def safe_plot(plot_func, filename, *args, **kwargs):
     """Executa função de plotagem e salva, sem quebrar o script."""
@@ -31,17 +31,20 @@ def safe_plot(plot_func, filename, *args, **kwargs):
 # ============================
 # 1. Configuração de caminhos
 # ============================
-repo_root = os.getcwd()  # Caminho relativo ao repositório
-csv_path = os.path.join(repo_root, "dataset", "amazon_products_sales_data_cleaned.csv")
-output_dir = os.path.join(repo_root, "Result")
+script_dir = os.path.dirname(os.path.abspath(__file__))  # pasta do script
+csv_path = os.path.join(script_dir, "amazon_products_sales_data_cleaned.csv")  # CSV na mesma pasta
+output_dir = os.path.join(script_dir, "Result")
 os.makedirs(output_dir, exist_ok=True)
 
 # ============================
-# 2. Carregar dataset completo
+# 2. Carregar dataset
 # ============================
-df = pd.read_csv(csv_path)
-df.fillna(0, inplace=True)  # Substitui valores nulos para garantir todas as linhas
+try:
+    df = pd.read_csv(csv_path)
+except FileNotFoundError:
+    raise FileNotFoundError(f"Arquivo CSV não encontrado: {csv_path}")
 
+df.fillna(0, inplace=True)  # Garantir que não existam valores nulos
 print(f"Dataset carregado: {df.shape[0]} linhas x {df.shape[1]} colunas")
 
 # Salvar dataset completo em CSV
@@ -51,7 +54,7 @@ df.to_csv(os.path.join(output_dir, "dataset_full.csv"), index=False)
 try:
     df.to_excel(os.path.join(output_dir, "dataset_full.xlsx"), index=False)
 except ModuleNotFoundError:
-    print("Módulo 'openpyxl' não encontrado. O arquivo Excel não será gerado.")
+    print("Módulo 'openpyxl' não encontrado. Arquivo Excel não será gerado.")
 
 # ============================
 # 3. Estatísticas
@@ -171,7 +174,7 @@ with open(os.path.join(output_dir, "top10_feature_importance.txt"), "w", encodin
         f.write(f"{i}. {feature}: {importance:.4f}\n")
 
 # ============================
-# 10. Resultado final em TXT 
+# 10. Resultado final em TXT (estilo usuário)
 # ============================
 result_txt_path = os.path.join(output_dir, "resultado_final.txt")
 with open(result_txt_path, "w", encoding="utf-8") as f:

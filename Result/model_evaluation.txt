@@ -1,4 +1,0 @@
-Avaliação do modelo:
-MAE  (Erro Absoluto Médio): 249.79
-RMSE (Raiz do Erro Quadrático Médio): 1825.57
-R²   (Coeficiente de Determinação): 0.90

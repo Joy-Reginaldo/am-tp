@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang='pt-BR'>
+<head><meta charset="UTF-8"><title>Relatório Simplificado Previsão de Vendas</title>
+<style>body{font-family:Arial;margin:20px;line-height:1.6;background:#f9f9f9} h1{color:#2F4F4F} h2{color:#2E8B57} .box{background:#fff;border:1px solid #ccc;padding:15px;margin-bottom:20px;border-radius:8px} img,iframe{margin-bottom:20px;border-radius:8px}</style>
+</head>
+<body>
+<h1>Previsão de Vendas Amazon</h1>
+
+<div class="box">
+<h2>Objetivo do Projeto</h2>
+<p>Este projeto tem como objetivo prever quantos produtos serão comprados no mês, tratando-se de um problema de regressão com campo alvo <strong>purchased_last_month</strong>. A dificuldade é alta e a questão de pesquisa central é: quais atributos impactam mais na quantidade de vendas e como se correlacionam?</p>
+</div>
+
+<div class="box">
+<h2>(i) Análise exploratória dos dados</h2>
+<p>Resumo inicial dos dados e possíveis problemas, como valores ausentes ou outliers.</p>
+<img src='heatmap_correlation.png' width='700'><br>
+<p>Histograma da variável <strong>product_rating</strong>: distribuição e tendências.</p><img src='hist_product_rating.png' width='700'><br><p>Boxplot da variável <strong>product_rating</strong>: mediana, quartis e outliers.</p><img src='box_product_rating.png' width='700'><br><p>Histograma da variável <strong>total_reviews</strong>: distribuição e tendências.</p><img src='hist_total_reviews.png' width='700'><br><p>Boxplot da variável <strong>total_reviews</strong>: mediana, quartis e outliers.</p><img src='box_total_reviews.png' width='700'><br><p>Histograma da variável <strong>purchased_last_month</strong>: distribuição e tendências.</p><img src='hist_purchased_last_month.png' width='700'><br><p>Boxplot da variável <strong>purchased_last_month</strong>: mediana, quartis e outliers.</p><img src='box_purchased_last_month.png' width='700'><br><p>Histograma da variável <strong>discounted_price</strong>: distribuição e tendências.</p><img src='hist_discounted_price.png' width='700'><br><p>Boxplot da variável <strong>discounted_price</strong>: mediana, quartis e outliers.</p><img src='box_discounted_price.png' width='700'><br><p>Histograma da variável <strong>original_price</strong>: distribuição e tendências.</p><img src='hist_original_price.png' width='700'><br><p>Boxplot da variável <strong>original_price</strong>: mediana, quartis e outliers.</p><img src='box_original_price.png' width='700'><br><p>Histograma da variável <strong>discount_percentage</strong>: distribuição e tendências.</p><img src='hist_discount_percentage.png' width='700'><br><p>Boxplot da variável <strong>discount_percentage</strong>: mediana, quartis e outliers.</p><img src='box_discount_percentage.png' width='700'><br>
+<div class="box">
+<h2>(ii) Pré-processamento dos dados</h2>
+<p>Normalização, codificação de variáveis categóricas e preenchimento de valores ausentes aplicados.</p>
+</div>
+
+<div class="box">
+<h2>(iii) Treinamento e validação dos modelos</h2>
+<p>Modelos testados: LinearRegression, RandomForest, GradientBoosting, XGBoost</p>
+<table border="1" cellpadding="5"><tr><th>Modelo</th><th>MAE</th><th>RMSE</th><th>R2</th></tr>
+<tr><td>LinearRegression</td><td>1819.57</td><td>5053.85</td><td>0.2363</td></tr>
+<tr><td>RandomForest</td><td>93.91</td><td>1037.34</td><td>0.9678</td></tr>
+<tr><td>GradientBoosting</td><td>229.77</td><td>1011.33</td><td>0.9694</td></tr>
+<tr><td>XGBoost</td><td>112.76</td><td>1165.64</td><td>0.9594</td></tr>
+</table></div>
+<div class="box">
+<h2>(iv) Interpretação e análise crítica</h2>
+<p>O modelo RandomForest foi considerado o melhor com base em R2. Os fatores que mais influenciam as vendas são:</p>
+<ul>
+<li>total_reviews: importância 0.3696</li>
+<li>product_image_url: importância 0.3460</li>
+<li>product_page_url: importância 0.1405</li>
+<li>data_collected_at: importância 0.0955</li>
+<li>discounted_price: importância 0.0094</li>
+<li>discount_percentage: importância 0.0085</li>
+<li>original_price: importância 0.0081</li>
+<li>product_rating: importância 0.0064</li>
+<li>product_title: importância 0.0059</li>
+<li>is_sponsored: importância 0.0052</li>
+<li>product_category: importância 0.0020</li>
+<li>delivery_date: importância 0.0009</li>
+<li>is_best_seller: importância 0.0007</li>
+<li>buy_box_availability: importância 0.0006</li>
+<li>sustainability_tags: importância 0.0005</li>
+<li>has_coupon: importância 0.0002</li>
+</ul><p>Gráfico das previsões do próximo mês:</p><iframe src='predictions_best_model.html' width='900' height='600'></iframe><p>Importância dos atributos:</p><img src='feature_importance.png' width='700'><br></body></html>

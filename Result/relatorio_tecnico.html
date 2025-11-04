@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang='pt-BR'>
+<head>
+<meta charset='UTF-8'>
+<title>Relatório Técnico Previsão de Vendas</title>
+<style>body { font-family: Arial; margin: 20px; } h1 {color:#2F4F4F} h2{color:#2E8B57} img{margin-bottom:20px}</style>
+</head>
+<body>
+<h1>Previsão de Vendas Amazon (CMP263) - Técnico</h1>
+
+<div class="box">
+<h2>Objetivo do Projeto</h2>
+<ul>
+<li><strong>Objetivo:</strong> Prever quantos produtos serão comprados no mês</li>
+<li><strong>Tipo de problema:</strong> Regressão</li>
+<li><strong>Campo alvo:</strong> purchased_last_month</li>
+<li><strong>Dificuldade:</strong> Difícil</li>
+<li><strong>Questão de pesquisa:</strong> Quais os atributos mais relevantes que impactam na quantidade de vendas de um produto? Existe correlação?</li>
+</ul>
+</div>
+
+<h2>(i) Análise exploratória dos dados</h2>
+<p>Descrição estatística:</p><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_title</th>
+      <th>product_rating</th>
+      <th>total_reviews</th>
+      <th>purchased_last_month</th>
+      <th>discounted_price</th>
+      <th>original_price</th>
+      <th>is_best_seller</th>
+      <th>is_sponsored</th>
+      <th>has_coupon</th>
+      <th>buy_box_availability</th>
+      <th>delivery_date</th>
+      <th>sustainability_tags</th>
+      <th>product_image_url</th>
+      <th>product_page_url</th>
+      <th>data_collected_at</th>
+      <th>product_category</th>
+      <th>discount_percentage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>42675</td>
+      <td>41651.000000</td>
+      <td>41651.000000</td>
+      <td>32164.000000</td>
+      <td>40613.000000</td>
+      <td>40613.000000</td>
+      <td>42675</td>
+      <td>42675</td>
+      <td>42675</td>
+      <td>28022</td>
+      <td>30692</td>
+      <td>3408</td>
+      <td>42675</td>
+      <td>40606</td>
+      <td>42675</td>
+      <td>42675</td>
+      <td>40613.000000</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>8808</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>12</td>
+      <td>2</td>
+      <td>42</td>
+      <td>1</td>
+      <td>24</td>
+      <td>16</td>
+      <td>8038</td>
+      <td>40606</td>
+      <td>1559</td>
+      <td>15</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>Duracell Coppertop 9V Battery, 6 Count (Pack of 1), 9 Volt Battery with Long-lasting Power, All-Purpose Alkaline 9V Battery for Household and Office Devices</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>No Badge</td>
+      <td>Organic</td>
+      <td>No Coupon</td>
+      <td>Add to cart</td>
+      <td>2025-09-04</td>
+      <td>Small Business</td>
+      <td>https://m.media-amazon.com/images/I/51Xr76m2WLL._AC_UL320_.jpg</td>
+      <td>https://www.amazon.com/sspa/click?ie=UTF8&amp;spc=MTo4NzEzNDY2NTQ5NDYxNDQ2OjE3NTU4MDAwNjg6c3BfYXRmX2Jyb3dzZTozMDA2NzE0NTMwMTcyMDI6OjA6Og&amp;url=%2FBOYA-BOYALINK-Microphone-Micophone-Cancelling%2Fdp%2FB0DNZB7TQG%2Fref%3Dsr_1_1_sspa%3Fdib%3DeyJ2IjoiMSJ9.avmZlHCQuVOwikquBqYSIjN8SVcyxtkXHQMPt7Zjzkf4TeZzrZfQETMhdWuWgtTrVz8ITKpXLHvZj0fZRjxqgMPYNMitRqeUoeIwdYfc5nnzJ8m0T8HYeedlh3YSOhJQjeHskevMUQWyg6TtoB2tHcHt-edYPsQ6VwFQTI6avsPrgVpFKrto3ff9TDR9BcRyPwM6AiYn-vh7wA5PP9DjZddhCPf7bVPcHMZ6Hwd40dQDWm9_M8R-LcwKY8wnuWRUSplhfYJBvTjAgsb3Y3y88VGpfqY3V8Rd2ge-woBzUMA.yqwi-krmElGgXIMa8kKUPx1XmaXd9lHaAkMkVVpStxo%26dib_tag%3Dse%26qid%3D1755800068%26refinements%3Dp_n_g-101014971069111%253A119653281011%26s%3Delectronics%26sr%3D1-1-spons%26sp_csd%3Dd2lkZ2V0TmFtZT1zcF9hdGZfYnJvd3Nl%26psc%3D1</td>
+      <td>2025-08-21 11:33:01</td>
+      <td>Other Electronics</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>744</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>40814</td>
+      <td>35664</td>
+      <td>40727</td>
+      <td>28022</td>
+      <td>7862</td>
+      <td>1341</td>
+      <td>1461</td>
+      <td>1</td>
+      <td>33</td>
+      <td>8755</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>NaN</td>
+      <td>4.399431</td>
+      <td>3087.106000</td>
+      <td>1293.665278</td>
+      <td>243.227289</td>
+      <td>257.611107</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.547151</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>NaN</td>
+      <td>0.386997</td>
+      <td>13030.460133</td>
+      <td>6318.323574</td>
+      <td>473.351545</td>
+      <td>496.633495</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>12.744715</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>NaN</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>50.000000</td>
+      <td>2.160000</td>
+      <td>2.160000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>NaN</td>
+      <td>4.200000</td>
+      <td>82.000000</td>
+      <td>100.000000</td>
+      <td>29.690000</td>
+      <td>32.990000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>NaN</td>
+      <td>4.500000</td>
+      <td>343.000000</td>
+      <td>200.000000</td>
+      <td>84.990000</td>
+      <td>89.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>NaN</td>
+      <td>4.700000</td>
+      <td>1886.000000</td>
+      <td>400.000000</td>
+      <td>224.000000</td>
+      <td>229.990000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>8.490000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>NaN</td>
+      <td>5.000000</td>
+      <td>865598.000000</td>
+      <td>100000.000000</td>
+      <td>5449.000000</td>
+      <td>5449.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>85.420000</td>
+    </tr>
+  </tbody>
+</table>
+<p>Valores ausentes por coluna: {'product_title': 0, 'product_rating': 1024, 'total_reviews': 1024, 'purchased_last_month': 10511, 'discounted_price': 2062, 'original_price': 2062, 'is_best_seller': 0, 'is_sponsored': 0, 'has_coupon': 0, 'buy_box_availability': 14653, 'delivery_date': 11983, 'sustainability_tags': 39267, 'product_image_url': 0, 'product_page_url': 2069, 'data_collected_at': 0, 'product_category': 0, 'discount_percentage': 2062}</p>
+<p>Heatmap de correlação (apenas variáveis numéricas): cores quentes indicam correlação positiva; frias indicam negativa.</p>
+<img src='heatmap_correlation.png' width='700'><br>
+<p>Histograma da variável <strong>product_rating</strong>: distribuição dos valores, tendência e outliers.</p><img src='hist_product_rating.png' width='700'><br><p>Boxplot da variável <strong>product_rating</strong>: mediana, quartis e possíveis valores extremos.</p><img src='box_product_rating.png' width='700'><br><p>Histograma da variável <strong>total_reviews</strong>: distribuição dos valores, tendência e outliers.</p><img src='hist_total_reviews.png' width='700'><br><p>Boxplot da variável <strong>total_reviews</strong>: mediana, quartis e possíveis valores extremos.</p><img src='box_total_reviews.png' width='700'><br><p>Histograma da variável <strong>purchased_last_month</strong>: distribuição dos valores, tendência e outliers.</p><img src='hist_purchased_last_month.png' width='700'><br><p>Boxplot da variável <strong>purchased_last_month</strong>: mediana, quartis e possíveis valores extremos.</p><img src='box_purchased_last_month.png' width='700'><br><p>Histograma da variável <strong>discounted_price</strong>: distribuição dos valores, tendência e outliers.</p><img src='hist_discounted_price.png' width='700'><br><p>Boxplot da variável <strong>discounted_price</strong>: mediana, quartis e possíveis valores extremos.</p><img src='box_discounted_price.png' width='700'><br><p>Histograma da variável <strong>original_price</strong>: distribuição dos valores, tendência e outliers.</p><img src='hist_original_price.png' width='700'><br><p>Boxplot da variável <strong>original_price</strong>: mediana, quartis e possíveis valores extremos.</p><img src='box_original_price.png' width='700'><br><p>Histograma da variável <strong>discount_percentage</strong>: distribuição dos valores, tendência e outliers.</p><img src='hist_discount_percentage.png' width='700'><br><p>Boxplot da variável <strong>discount_percentage</strong>: mediana, quartis e possíveis valores extremos.</p><img src='box_discount_percentage.png' width='700'><br>
+<h2>(ii) Pré-processamento dos dados</h2>
+<p>Preenchimento de valores ausentes, codificação de variáveis categóricas e normalização aplicados.</p>
+
+<h2>(iii) Treinamento e validação dos modelos</h2>
+<p>Modelos utilizados: LinearRegression, RandomForest, GradientBoosting, XGBoost</p>
+<table border="1" cellpadding="5">
+<tr><th>Modelo</th><th>MAE</th><th>RMSE</th><th>R2</th></tr>
+<tr><td>LinearRegression</td><td>1819.57</td><td>5053.85</td><td>0.2363</td></tr>
+<tr><td>RandomForest</td><td>93.91</td><td>1037.34</td><td>0.9678</td></tr>
+<tr><td>GradientBoosting</td><td>229.77</td><td>1011.33</td><td>0.9694</td></tr>
+<tr><td>XGBoost</td><td>112.76</td><td>1165.64</td><td>0.9594</td></tr>
+</table>
+<h2>(iv) Interpretação e análise crítica</h2>
+<p>O modelo RandomForest foi considerado o melhor baseado em R2. Os principais fatores que impactam as vendas são:</p>
+<ul>
+<li>total_reviews: importância 0.3696</li>
+<li>product_image_url: importância 0.3460</li>
+<li>product_page_url: importância 0.1405</li>
+<li>data_collected_at: importância 0.0955</li>
+<li>discounted_price: importância 0.0094</li>
+<li>discount_percentage: importância 0.0085</li>
+<li>original_price: importância 0.0081</li>
+<li>product_rating: importância 0.0064</li>
+<li>product_title: importância 0.0059</li>
+<li>is_sponsored: importância 0.0052</li>
+<li>product_category: importância 0.0020</li>
+<li>delivery_date: importância 0.0009</li>
+<li>is_best_seller: importância 0.0007</li>
+<li>buy_box_availability: importância 0.0006</li>
+<li>sustainability_tags: importância 0.0005</li>
+<li>has_coupon: importância 0.0002</li>
+</ul><p>Comparação de métricas interativa:</p><iframe src='metrics_comparison.html' width='900' height='600'></iframe><p>Previsões x valores reais (melhor modelo):</p><iframe src='predictions_best_model.html' width='900' height='600'></iframe><p>Importância dos atributos:</p><img src='feature_importance.png' width='700'><br>

@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang='pt-BR'>
+<head><meta charset="UTF-8"><title>Relatório Simplificado Previsão de Vendas</title>
+<style>body{font-family:Arial;margin:20px;line-height:1.6;background:#f9f9f9} h1{color:#2F4F4F} h2{color:#2E8B57} .box{background:#fff;border:1px solid #ccc;padding:15px;margin-bottom:20px;border-radius:8px} img,iframe{margin-bottom:20px;border-radius:8px}</style>
+</head>
+<body>
+<h1>Previsão de Vendas Amazon</h1>
+
+<div class="box">
+<h2>Objetivo do Projeto</h2>
+<p>Este projeto tem como objetivo prever quantos produtos serão comprados no mês, tratando-se de um problema de regressão com campo alvo <strong>purchased_last_month</strong>. A questão de pesquisa central é: quais atributos impactam mais na quantidade de vendas e como se correlacionam?</p>
+</div>
+
+<div class="box">
+<h2>(i) Análise exploratória dos dados</h2>
+<p>Resumo inicial dos dados e possíveis problemas, como valores ausentes ou outliers. O gráfico abaixo mostra a correlação entre as variáveis numéricas:</p>
+<img src='heatmap_correlation.png' width='700'><br>
+<p>Histograma da variável <strong>product_rating</strong>: distribuição e tendências.</p><img src='hist_product_rating.png' width='700'><br><p>Boxplot da variável <strong>product_rating</strong>: mediana, quartis e outliers.</p><img src='box_product_rating.png' width='700'><br><p>Histograma da variável <strong>total_reviews</strong>: distribuição e tendências.</p><img src='hist_total_reviews.png' width='700'><br><p>Boxplot da variável <strong>total_reviews</strong>: mediana, quartis e outliers.</p><img src='box_total_reviews.png' width='700'><br><p>Histograma da variável <strong>discounted_price</strong>: distribuição e tendências.</p><img src='hist_discounted_price.png' width='700'><br><p>Boxplot da variável <strong>discounted_price</strong>: mediana, quartis e outliers.</p><img src='box_discounted_price.png' width='700'><br><p>Histograma da variável <strong>original_price</strong>: distribuição e tendências.</p><img src='hist_original_price.png' width='700'><br><p>Boxplot da variável <strong>original_price</strong>: mediana, quartis e outliers.</p><img src='box_original_price.png' width='700'><br><p>Histograma da variável <strong>discount_percentage</strong>: distribuição e tendências.</p><img src='hist_discount_percentage.png' width='700'><br><p>Boxplot da variável <strong>discount_percentage</strong>: mediana, quartis e outliers.</p><img src='box_discount_percentage.png' width='700'><br>
+<div class="box">
+<h2>(ii) Pré-processamento dos dados</h2>
+<p>Para garantir a validade do modelo, o pré-processamento (normalização, codificação de variáveis categóricas e tratamento de ausentes) foi aplicado **após** a separação do conjunto de treino e teste (Pipeline).</p>
+</div>
+
+<div class="box">
+<h2>(iii) Treinamento e validação dos modelos</h2>
+<p>Modelos testados: LinearRegression, RandomForest, GradientBoosting, RandomForest_Otimizado</p>
+<table border="1" cellpadding="5"><tr><th>Modelo</th><th>MAE</th><th>RMSE</th><th>R2</th></tr>
+<tr><td>RandomForest</td><td>174.72</td><td>1347.94</td><td>0.9447</td></tr>
+<tr><td>GradientBoosting</td><td>362.89</td><td>1411.77</td><td>0.9394</td></tr>
+<tr><td>RandomForest_Otimizado</td><td>411.03</td><td>1545.10</td><td>0.9274</td></tr>
+<tr><td>LinearRegression</td><td>865.85</td><td>5846.54</td><td>-0.0398</td></tr>
+</table></div>
+<div class="box">
+<h2>(iv) Interpretação e análise crítica</h2>
+<p>O modelo **RandomForest** foi considerado o melhor com base em R2. Os fatores que mais influenciam as vendas são:</p>
+<ul>
+<li>cat__product_title_Energizer Alkaline Power AAA Batteries, 32 Count, Long-Lasting Triple A Batteries, Suitable for Everyday Electronics and Emergency Gear: importância 0.3005</li>
+<li>cat__product_image_url_https://m.media-amazon.com/images/I/91ass+ZYjcL._AC_UL320_.jpg: importância 0.2758</li>
+<li>cat__product_image_url_https://m.media-amazon.com/images/I/61ZSfHGJ2bL._AC_UL320_.jpg: importância 0.1038</li>
+<li>cat__product_title_Duracell Coppertop 9V Battery, 6 Count (Pack of 1), 9 Volt Battery with Long-lasting Power, All-Purpose Alkaline 9V Battery for Household and Office Devices: importância 0.0979</li>
+<li>cat__data_collected_at_2025-08-21 11:14:29: importância 0.0492</li>
+<li>num__total_reviews: importância 0.0471</li>
+<li>cat__data_collected_at_2025-08-21 11:14:46: importância 0.0178</li>
+<li>cat__product_title_Energizer AA Batteries Alkaline Power, 32 Count Alkaline Double A Battery Pack: importância 0.0156</li>
+<li>cat__product_image_url_https://m.media-amazon.com/images/I/91-R5huHLnL._AC_UL320_.jpg: importância 0.0135</li>
+<li>cat__product_title_Energizer CR2032 Lithium 3V Coin Batteries for Watches, AirTags, Key Fobs, Small Electronics (10 Pack): importância 0.0062</li>
+</ul><p>Gráfico das previsões do melhor modelo:</p><iframe src='predictions_best_model_final.html' width='900' height='600'></iframe><p>Importância dos atributos:</p><img src='feature_importance_final.png' width='700'><br></body></html>
